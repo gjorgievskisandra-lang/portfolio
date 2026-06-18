@@ -1,10 +1,19 @@
 {
-  "title_mk": "Дом за стари и изнемоштени лица",
-  "title_en": "Elderly Care Home",
-  "category_mk": "Јавен",
-  "category_en": "Public",
-  "year": 2021,
-  "image": "/uploads/images/08_starecki-dom_render-atrium.jpg",
   "description_mk": "Проект за дом за стари лица со атриум и природно осветлување. Резиденцијална архитектура со фокус на комфор и достапност.",
-  "description_en": "Elderly care facility featuring an atrium and natural lighting. Residential architecture focused on comfort and accessibility."
+  "title_mk": "Дом за стари и изнемоштени лица",
+  "category_en": "Public",
+  "description_en": "Elderly care facility featuring an atrium and natural lighting. Residential architecture focused on comfort and accessibility.",
+  "title_en": "Elderly Care Home",
+  "images": [
+    "/uploads/images/01_starecki-dom_osnova-podrum.jpg",
+    "/uploads/images/02_starecki-dom_osnova-priziemje.jpg",
+    "/uploads/images/03_starecki-dom_osnova-kat1.jpg",
+    "/uploads/images/04_starecki-dom_render-glaven-vlez-1.jpg",
+    "/uploads/images/05_starecki-dom_render-glaven-vlez-2.jpg",
+    "/uploads/images/06_starecki-dom_render-glaven-vlez-3.jpg",
+    "/uploads/images/07_starecki-dom_render-glaven-vlez-4.jpg"
+  ],
+  "image": "/uploads/images/08_starecki-dom_render-atrium.jpg",
+  "year": 2021,
+  "category_mk": "Јавен"
 }
