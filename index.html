@@ -478,6 +478,16 @@
       align-items: center;
       justify-content: center;
       transition: transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-img img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .project-card:hover .project-img { transform: scale(1.04); }
@@ -830,7 +840,7 @@
           Project images coming soon. Each card represents a completed or ongoing commission.
         </p>
       </div>
-      <div class="portfolio-grid">
+      <div class="portfolio-grid" id="portfolio-grid">
 
         <div class="project-card reveal">
           <div class="project-img-wrap">
@@ -1091,6 +1101,58 @@
     }, { threshold: 0.12 });
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* ── Portfolio: dynamic load from _data/projects/ ────── */
+    (async function loadProjects() {
+      const grid = document.getElementById('portfolio-grid');
+      const gradients = [
+        'linear-gradient(145deg,#BCC8B4,#9AB099)',
+        'linear-gradient(145deg,#C4CDB8,#A6BAA0)',
+        'linear-gradient(145deg,#CAD2BE,#AEBEA8)',
+        'linear-gradient(145deg,#B8C4B2,#9CAE98)',
+        'linear-gradient(145deg,#C2CCB8,#A4B8A0)',
+        'linear-gradient(145deg,#CACED8,#A0ACBE)',
+      ];
+
+      function esc(s) {
+        return String(s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      }
+
+      function cardHtml(p, i) {
+        const num = String(i + 1).padStart(2, '0');
+        const imgHtml = p.image
+          ? `<img src="${esc(p.image)}" alt="${esc(p.title_en)}" loading="lazy">`
+          : `<span class="proj-num">${num}</span>`;
+        const bgStyle = p.image ? '' : ` style="background:${gradients[i % gradients.length]}"`;
+        return `
+          <div class="project-card reveal">
+            <div class="project-img-wrap">
+              <div class="project-img"${bgStyle}>${imgHtml}</div>
+            </div>
+            <p class="project-title" data-en="${esc(p.title_en)}" data-mk="${esc(p.title_mk)}">${esc(lang === 'en' ? p.title_en : p.title_mk)}</p>
+            <div class="project-meta">
+              <span class="project-cat" data-en="${esc(p.category_en)}" data-mk="${esc(p.category_mk)}">${esc(lang === 'en' ? p.category_en : p.category_mk)}</span>
+              <span class="project-year">${Number(p.year)}</span>
+            </div>
+          </div>`;
+      }
+
+      try {
+        const res = await fetch('https://api.github.com/repos/gjorgievskisandra-lang/portfolio/contents/_data/projects?ref=main');
+        if (!res.ok) return;
+        const files = await res.json();
+        const jsonFiles = files.filter(f => f.name.endsWith('.json'));
+        if (!jsonFiles.length) return;
+
+        const projects = await Promise.all(jsonFiles.map(f => fetch(f.download_url).then(r => r.json())));
+        projects.sort((a, b) => b.year - a.year);
+
+        grid.innerHTML = projects.map(cardHtml).join('');
+        grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+      } catch (_) {
+        // API недостапно или rate limit — остануваат placeholder картички
+      }
+    })();
   </script>
 </body>
 </html>
