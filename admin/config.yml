@@ -1,0 +1,65 @@
+backend:
+  name: github
+  repo: gjorgievskisandra-lang/portfolio
+  branch: main
+  auth_type: pkce
+  app_id: 0v23li04usv6IU9lFfvw
+
+media_folder: uploads/images
+public_folder: /uploads/images
+
+collections:
+  - name: projects
+    label: Проекти
+    label_singular: Проект
+    folder: _data/projects
+    create: true
+    delete: true
+    slug: "{{year}}-{{fields.title_en}}"
+    format: json
+    fields:
+      - label: "Наслов (МК)"
+        name: title_mk
+        widget: string
+
+      - label: "Title (EN)"
+        name: title_en
+        widget: string
+
+      - label: "Категорија (МК)"
+        name: category_mk
+        widget: select
+        options:
+          - { label: "Резиденцијален", value: "Резиденцијален" }
+          - { label: "Комерцијален", value: "Комерцијален" }
+          - { label: "Јавен", value: "Јавен" }
+
+      - label: "Category (EN)"
+        name: category_en
+        widget: select
+        options:
+          - { label: "Residential", value: "Residential" }
+          - { label: "Commercial", value: "Commercial" }
+          - { label: "Public", value: "Public" }
+
+      - label: "Година"
+        name: year
+        widget: number
+        value_type: int
+        min: 2000
+        max: 2035
+
+      - label: "Слика"
+        name: image
+        widget: image
+        required: false
+
+      - label: "Опис (МК)"
+        name: description_mk
+        widget: text
+        required: false
+
+      - label: "Description (EN)"
+        name: description_en
+        widget: text
+        required: false
