@@ -46,10 +46,15 @@ collections:
         min: 2000
         max: 2035
 
-      - label: "Слика"
-        name: image
-        widget: image
+      - label: "Слики"
+        name: images
+        widget: list
+        label_singular: "Слика"
         required: false
+        field:
+          label: "Слика"
+          name: image
+          widget: image
 
       - label: "Опис (МК)"
         name: description_mk

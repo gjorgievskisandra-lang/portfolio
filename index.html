@@ -691,6 +691,152 @@
       letter-spacing: 0.04em;
     }
 
+    /* ── MODAL ───────────────────────────────────────── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(42, 53, 36, 0.72);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal-box {
+      background: var(--cream);
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 0.85rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      line-height: 1;
+      cursor: pointer;
+      color: var(--text-mid);
+      z-index: 10;
+      padding: 0.15rem 0.45rem;
+      transition: color 0.2s;
+    }
+
+    .modal-close:hover { color: var(--text-dark); }
+
+    .modal-gallery {
+      position: relative;
+      background: var(--cream-mid);
+      aspect-ratio: 4 / 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .gallery-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .gallery-placeholder {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem;
+      font-weight: 300;
+      color: rgba(125, 152, 112, 0.3);
+      user-select: none;
+    }
+
+    .gallery-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(247, 243, 235, 0.88);
+      border: none;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--text-dark);
+      transition: background 0.2s;
+      z-index: 2;
+    }
+
+    .gallery-btn:hover { background: var(--cream); }
+    .gallery-prev { left: 0.75rem; }
+    .gallery-next { right: 0.75rem; }
+
+    .gallery-dots {
+      position: absolute;
+      bottom: 0.8rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.45rem;
+    }
+
+    .gallery-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.45);
+      cursor: pointer;
+      border: none;
+      padding: 0;
+      transition: background 0.2s;
+    }
+
+    .gallery-dot.active { background: rgba(255,255,255,0.95); }
+
+    .modal-info {
+      padding: 2.5rem 2.25rem 2.5rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .modal-meta {
+      font-size: 0.67rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 0.85rem;
+      display: flex;
+      gap: 1.25rem;
+    }
+
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 300;
+      color: var(--text-dark);
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+    }
+
+    .modal-desc {
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--text-mid);
+      line-height: 1.9;
+    }
+
+    @media (max-width: 768px) {
+      .modal-overlay { padding: 0; align-items: flex-end; }
+      .modal-box { grid-template-columns: 1fr; max-height: 92vh; }
+      .modal-info { padding: 1.75rem 1.5rem 2rem; }
+    }
+
     /* ── FADE-IN ─────────────────────────────────────── */
     .reveal {
       opacity: 0;
@@ -769,6 +915,27 @@
     <div class="mobile-lang">
       <button class="lang-btn active" data-lang="en" onclick="setLang('en');closeMobile()">EN</button>
       <button class="lang-btn" data-lang="mk" onclick="setLang('mk');closeMobile()">MK</button>
+    </div>
+  </div>
+
+  <!-- ── PROJECT MODAL ─────────────────────────────────────── -->
+  <div class="modal-overlay" id="project-modal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">×</button>
+      <div class="modal-gallery">
+        <div id="gallery-display" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"></div>
+        <button class="gallery-btn gallery-prev" id="gallery-prev" onclick="galleryNav(-1)">←</button>
+        <button class="gallery-btn gallery-next" id="gallery-next" onclick="galleryNav(1)">→</button>
+        <div class="gallery-dots" id="gallery-dots"></div>
+      </div>
+      <div class="modal-info">
+        <p class="modal-meta">
+          <span id="modal-cat"></span>
+          <span id="modal-year"></span>
+        </p>
+        <h2 class="modal-title" id="modal-title"></h2>
+        <p class="modal-desc" id="modal-desc"></p>
+      </div>
     </div>
   </div>
 
@@ -1102,7 +1269,95 @@
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    /* ── Portfolio: dynamic load from _data/projects/ ────── */
+    /* ── Portfolio: dynamic load + modal ─────────────────── */
+    let projectsData  = [];
+    let currentImages = [];
+    let currentImgIdx = 0;
+
+    function getImages(p) {
+      if (p.images && p.images.length) {
+        return p.images
+          .map(item => typeof item === 'string' ? item : (item.image || item.src || item.url || ''))
+          .filter(Boolean);
+      }
+      if (p.image) return [p.image];
+      return [];
+    }
+
+    function openModal(idx) {
+      const p = projectsData[idx];
+      if (!p) return;
+
+      currentImages = getImages(p);
+      currentImgIdx = 0;
+      updateGallery();
+
+      const l = lang;
+      const bind = (id, enVal, mkVal) => {
+        const el = document.getElementById(id);
+        el.textContent   = l === 'en' ? (enVal || '') : (mkVal || '');
+        el.dataset.en    = enVal || '';
+        el.dataset.mk    = mkVal || '';
+      };
+
+      bind('modal-title', p.title_en,    p.title_mk);
+      bind('modal-cat',   p.category_en, p.category_mk);
+      bind('modal-desc',  p.description_en, p.description_mk);
+      document.getElementById('modal-year').textContent = p.year || '';
+
+      document.getElementById('project-modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('project-modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('project-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape')      closeModal();
+      if (e.key === 'ArrowLeft')   galleryNav(-1);
+      if (e.key === 'ArrowRight')  galleryNav(1);
+    });
+
+    function updateGallery() {
+      const display = document.getElementById('gallery-display');
+      const prevBtn = document.getElementById('gallery-prev');
+      const nextBtn = document.getElementById('gallery-next');
+      const dotsEl  = document.getElementById('gallery-dots');
+      const multi   = currentImages.length > 1;
+
+      if (!currentImages.length) {
+        display.innerHTML = '<div class="gallery-placeholder">SG</div>';
+        prevBtn.style.display = nextBtn.style.display = 'none';
+        dotsEl.innerHTML = '';
+        return;
+      }
+
+      display.innerHTML = `<img class="gallery-img" src="${currentImages[currentImgIdx]}" alt="" loading="lazy">`;
+      prevBtn.style.display = nextBtn.style.display = multi ? 'flex' : 'none';
+      dotsEl.innerHTML = multi
+        ? currentImages.map((_, i) =>
+            `<button class="gallery-dot${i === currentImgIdx ? ' active' : ''}" onclick="galleryGoTo(${i})"></button>`
+          ).join('')
+        : '';
+    }
+
+    function galleryNav(dir) {
+      if (!currentImages.length) return;
+      currentImgIdx = (currentImgIdx + dir + currentImages.length) % currentImages.length;
+      updateGallery();
+    }
+
+    function galleryGoTo(i) {
+      currentImgIdx = i;
+      updateGallery();
+    }
+
     (async function loadProjects() {
       const grid = document.getElementById('portfolio-grid');
       const gradients = [
@@ -1119,13 +1374,15 @@
       }
 
       function cardHtml(p, i) {
-        const num = String(i + 1).padStart(2, '0');
-        const imgHtml = p.image
-          ? `<img src="${esc(p.image)}" alt="${esc(p.title_en)}" loading="lazy">`
+        const num   = String(i + 1).padStart(2, '0');
+        const imgs  = getImages(p);
+        const thumb = imgs[0] || '';
+        const imgHtml = thumb
+          ? `<img src="${esc(thumb)}" alt="${esc(p.title_en)}" loading="lazy">`
           : `<span class="proj-num">${num}</span>`;
-        const bgStyle = p.image ? '' : ` style="background:${gradients[i % gradients.length]}"`;
+        const bgStyle = thumb ? '' : ` style="background:${gradients[i % gradients.length]}"`;
         return `
-          <div class="project-card reveal">
+          <div class="project-card reveal" onclick="openModal(${i})">
             <div class="project-img-wrap">
               <div class="project-img"${bgStyle}>${imgHtml}</div>
             </div>
@@ -1146,6 +1403,7 @@
 
         const projects = await Promise.all(jsonFiles.map(f => fetch(f.download_url).then(r => r.json())));
         projects.sort((a, b) => b.year - a.year);
+        projectsData = projects;
 
         grid.innerHTML = projects.map(cardHtml).join('');
         grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
