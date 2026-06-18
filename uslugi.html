@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Услуги — Sandra Gjorgievski</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:        #F7F3EB;
+      --cream-mid:    #EDE6D8;
+      --cream-dark:   #DDD4C2;
+      --sage:         #7D9870;
+      --sage-light:   #A8BCA0;
+      --sage-lighter: #CBD8C5;
+      --sage-dark:    #4E6B42;
+      --text-dark:    #2A3524;
+      --text-mid:     #4A5E40;
+      --text-light:   #748C6A;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background-color: var(--cream);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ───────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 5rem;
+      background: rgba(247, 243, 235, 0.93);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(125, 152, 112, 0.12);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.65rem;
+      font-weight: 600;
+      color: var(--sage-dark);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-right a {
+      text-decoration: none;
+      font-size: 0.73rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      transition: color 0.2s;
+    }
+
+    .nav-right a:hover { color: var(--sage-dark); }
+
+    .nav-right a.current {
+      color: var(--sage-dark);
+      border-bottom: 1px solid var(--sage);
+      padding-bottom: 0.15rem;
+    }
+
+    .lang-sep { width: 1px; height: 18px; background: var(--sage-lighter); }
+
+    .lang-toggle { display: flex; gap: 0.3rem; align-items: center; }
+
+    .lang-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      padding: 0.2rem 0.35rem;
+      transition: color 0.2s;
+      border-bottom: 1px solid transparent;
+    }
+
+    .lang-btn.active {
+      color: var(--sage-dark);
+      font-weight: 500;
+      border-bottom-color: var(--sage);
+    }
+
+    /* ── HAMBURGER ─────────────────────────────────────── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--text-mid);
+      transition: all 0.3s;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--cream);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+
+    .mobile-menu.open { display: flex; }
+
+    .mobile-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 300;
+      text-decoration: none;
+      color: var(--text-dark);
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+
+    .mobile-menu a:hover { color: var(--sage); }
+
+    .mobile-lang { display: flex; gap: 1rem; margin-top: 1rem; }
+
+    /* ── HERO ──────────────────────────────────────────── */
+    .uslugi-hero {
+      min-height: 52vh;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 5rem 5rem;
+      position: relative;
+      overflow: hidden;
+      background-color: var(--text-dark);
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(125, 152, 112, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(125, 152, 112, 0.06) 1px, transparent 1px);
+      background-size: 72px 72px;
+    }
+
+    .hero-circle {
+      position: absolute;
+      top: -60px;
+      right: 8%;
+      width: 420px;
+      height: 420px;
+      border: 1px solid rgba(125, 152, 112, 0.15);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-circle::before {
+      content: '';
+      position: absolute;
+      inset: 30px;
+      border: 1px solid rgba(125, 152, 112, 0.08);
+      border-radius: 50%;
+    }
+
+    .uslugi-hero-content { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; width: 100%; }
+
+    .hero-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--sage-light);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .hero-label::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--sage-dark);
+    }
+
+    .uslugi-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+    }
+
+    .uslugi-title em {
+      font-style: italic;
+      color: var(--sage-light);
+    }
+
+    /* ── SERVICES ──────────────────────────────────────── */
+    .services-section {
+      padding: 6rem 5rem 8rem;
+      background: var(--cream);
+    }
+
+    .services-container { max-width: 1200px; margin: 0 auto; }
+
+    .services-intro {
+      max-width: 600px;
+      margin-bottom: 5rem;
+    }
+
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--sage-light);
+    }
+
+    .services-intro p {
+      font-size: 0.97rem;
+      font-weight: 300;
+      color: var(--text-mid);
+      line-height: 1.95;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+
+    .service-card {
+      background: var(--cream-mid);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--sage-dark);
+      transition: height 0.4s ease;
+    }
+
+    .service-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(42, 53, 36, 0.08); }
+    .service-card:hover::before { height: 100%; }
+
+    .service-icon {
+      width: 52px;
+      height: 52px;
+      margin-bottom: 2rem;
+      color: var(--sage);
+    }
+
+    .service-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      font-weight: 300;
+      color: rgba(125, 152, 112, 0.15);
+      line-height: 1;
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      user-select: none;
+    }
+
+    .service-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      color: var(--text-dark);
+      margin-bottom: 1.25rem;
+      line-height: 1.2;
+    }
+
+    .service-desc {
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--text-mid);
+      line-height: 1.85;
+      margin-bottom: 2rem;
+    }
+
+    .service-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .service-list li {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: var(--text-light);
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .service-list li::before {
+      content: '';
+      display: block;
+      width: 16px;
+      height: 1px;
+      background: var(--sage);
+      flex-shrink: 0;
+    }
+
+    .service-divider {
+      height: 1px;
+      background: var(--cream-dark);
+      margin: 2rem 0;
+    }
+
+    .service-cta {
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--sage-dark);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: gap 0.2s, color 0.2s;
+    }
+
+    .service-cta:hover { gap: 0.85rem; color: var(--text-dark); }
+
+    /* ── CONTACT STRIP ─────────────────────────────────── */
+    .contact-strip {
+      background: var(--text-dark);
+      padding: 5rem;
+    }
+
+    .strip-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .strip-text h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 300;
+      color: var(--cream);
+      margin-bottom: 0.6rem;
+    }
+
+    .strip-text p {
+      font-size: 0.88rem;
+      font-weight: 300;
+      color: rgba(247, 243, 235, 0.55);
+    }
+
+    .strip-btn {
+      background: var(--sage-dark);
+      color: var(--cream);
+      border: none;
+      padding: 1rem 3rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.73rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.3s;
+      white-space: nowrap;
+    }
+
+    .strip-btn:hover { background: var(--sage); }
+
+    /* ── FOOTER ────────────────────────────────────────── */
+    footer {
+      background-color: var(--text-dark);
+      border-top: 1px solid rgba(247, 243, 235, 0.07);
+      padding: 2rem 5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    footer p {
+      font-size: 0.72rem;
+      color: rgba(247, 243, 235, 0.28);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── FADE-IN ────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .uslugi-hero, .services-section, .contact-strip, footer { padding-left: 3rem; padding-right: 3rem; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-right { display: none; }
+      .hamburger { display: flex; }
+      .uslugi-hero { padding: 0 1.5rem 3.5rem; min-height: 44vh; }
+      .services-section { padding: 4rem 1.5rem 5rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .contact-strip { padding: 3.5rem 1.5rem; }
+      footer { padding: 1.5rem; flex-direction: column; text-align: center; }
+      .hero-circle { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ─────────────────────────────────────────────── -->
+  <nav>
+    <a href="index.html" class="nav-logo">SG</a>
+    <ul class="nav-right">
+      <li><a href="index.html#about"     data-en="About"     data-mk="За мене">За мене</a></li>
+      <li><a href="index.html#portfolio" data-en="Portfolio" data-mk="Портфолио">Портфолио</a></li>
+      <li><a href="uslugi.html"          data-en="Services"  data-mk="Услуги" class="current">Услуги</a></li>
+      <li><a href="index.html#contact"   data-en="Contact"   data-mk="Контакт">Контакт</a></li>
+      <li><div class="lang-sep"></div></li>
+      <li>
+        <div class="lang-toggle">
+          <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+          <span style="color:var(--sage-lighter);font-size:0.65rem;">|</span>
+          <button class="lang-btn active" data-lang="mk" onclick="setLang('mk')">MK</button>
+        </div>
+      </li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMobile()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ── MOBILE MENU ─────────────────────────────────────── -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html#about"     onclick="closeMobile()" data-en="About"     data-mk="За мене">За мене</a>
+    <a href="index.html#portfolio" onclick="closeMobile()" data-en="Portfolio" data-mk="Портфолио">Портфолио</a>
+    <a href="uslugi.html"          onclick="closeMobile()" data-en="Services"  data-mk="Услуги">Услуги</a>
+    <a href="index.html#contact"   onclick="closeMobile()" data-en="Contact"   data-mk="Контакт">Контакт</a>
+    <div class="mobile-lang">
+      <button class="lang-btn" data-lang="en" onclick="setLang('en');closeMobile()">EN</button>
+      <button class="lang-btn active" data-lang="mk" onclick="setLang('mk');closeMobile()">MK</button>
+    </div>
+  </div>
+
+  <!-- ── HERO ────────────────────────────────────────────── -->
+  <div class="uslugi-hero">
+    <div class="hero-grid"></div>
+    <div class="hero-circle"></div>
+    <div class="uslugi-hero-content">
+      <p class="hero-label" data-en="Services · Sandra Gjorgievski" data-mk="Услуги · Сандра Ѓоргиевски">
+        Услуги · Сандра Ѓоргиевски
+      </p>
+      <h1 class="uslugi-title">
+        <span data-en="What I" data-mk="Што">Што</span><br>
+        <em><span data-en="Offer" data-mk="нудам">нудам</span></em>
+      </h1>
+    </div>
+  </div>
+
+  <!-- ── SERVICES ────────────────────────────────────────── -->
+  <section class="services-section">
+    <div class="services-container">
+
+      <div class="services-intro reveal">
+        <p class="section-label" data-en="Services" data-mk="Услуги">Услуги</p>
+        <p data-en="From the first consultation to the final rendering, I offer a complete range of architectural services tailored to your needs and budget. Each collaboration is personal, precise, and purposeful."
+           data-mk="Од првата консултација до финалната визуализација, нудам комплетен спектар на архитектонски услуги прилагодени на вашите потреби и буџет. Секоја соработка е лична, прецизна и намерна.">
+          Од првата консултација до финалната визуализација, нудам комплетен спектар на архитектонски услуги прилагодени на вашите потреби и буџет. Секоја соработка е лична, прецизна и намерна.
+        </p>
+      </div>
+
+      <div class="services-grid">
+
+        <!-- Service 1 -->
+        <div class="service-card reveal">
+          <span class="service-num">01</span>
+          <svg class="service-icon" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="26" cy="20" r="10" stroke="currentColor" stroke-width="1.2"/>
+            <path d="M10 42c0-8.837 7.163-16 16-16s16 7.163 16 16" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M38 10l4 4m0-4l-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+          <h2 class="service-name" data-en="Consultations" data-mk="Консултации">Консултации</h2>
+          <p class="service-desc"
+             data-en="A structured conversation to define the direction of your project. Whether you're starting from scratch or need a second opinion, a consultation provides clarity, confidence, and a clear path forward."
+             data-mk="Структурирана средба за дефинирање на насоката на вашиот проект. Без разлика дали почнувате од нула или ви треба второ мислење, консултацијата обезбедува јасност, доверба и јасен пат напред.">
+            Структурирана средба за дефинирање на насоката на вашиот проект. Без разлика дали почнувате од нула или ви треба второ мислење, консултацијата обезбедува јасност, доверба и јасен пат напред.
+          </p>
+          <ul class="service-list">
+            <li data-en="Site analysis &amp; feasibility" data-mk="Анализа на локацијата и изводливост">Анализа на локацијата и изводливост</li>
+            <li data-en="Programme definition" data-mk="Дефинирање на програмата">Дефинирање на програмата</li>
+            <li data-en="Budget &amp; timeline guidance" data-mk="Насоки за буџет и рокови">Насоки за буџет и рокови</li>
+            <li data-en="Regulatory overview" data-mk="Преглед на регулативата">Преглед на регулативата</li>
+          </ul>
+          <div class="service-divider"></div>
+          <a href="index.html#contact" class="service-cta">
+            <span data-en="Book a Consultation" data-mk="Закажи консултација">Закажи консултација</span>
+            <span>→</span>
+          </a>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="service-card reveal">
+          <span class="service-num">02</span>
+          <svg class="service-icon" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="8" width="40" height="32" rx="1" stroke="currentColor" stroke-width="1.2"/>
+            <path d="M6 16h40M16 8v32" stroke="currentColor" stroke-width="1.2"/>
+            <path d="M24 24h14M24 30h10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="11" cy="24" r="1.5" fill="currentColor"/>
+          </svg>
+          <h2 class="service-name" data-en="Architectural Project" data-mk="Архитектонски проект">Архитектонски проект</h2>
+          <p class="service-desc"
+             data-en="End-to-end design and documentation for residential, commercial, or public commissions. From concept sketches to construction drawings, I guide the project through every phase with precision and care."
+             data-mk="Целосен дизајн и документација за резиденцијални, комерцијални или јавни нарачки. Од концептни скици до технички цртежи, го водам проектот низ секоја фаза со прецизност и грижа.">
+            Целосен дизајн и документација за резиденцијални, комерцијални или јавни нарачки. Од концептни скици до технички цртежи, го водам проектот низ секоја фаза со прецизност и грижа.
+          </p>
+          <ul class="service-list">
+            <li data-en="Concept design &amp; massing" data-mk="Концептен дизајн и волумен">Концептен дизајн и волумен</li>
+            <li data-en="Schematic &amp; design development" data-mk="Шематски дизајн и развој">Шематски дизајн и развој</li>
+            <li data-en="Technical drawings &amp; specs" data-mk="Технички цртежи и спецификации">Технички цртежи и спецификации</li>
+            <li data-en="Permit &amp; authority submissions" data-mk="Поднесување за дозволи и органи">Поднесување за дозволи и органи</li>
+            <li data-en="Site supervision &amp; support" data-mk="Надзор и поддршка на локација">Надзор и поддршка на локација</li>
+          </ul>
+          <div class="service-divider"></div>
+          <a href="index.html#contact" class="service-cta">
+            <span data-en="Start a Project" data-mk="Започни проект">Започни проект</span>
+            <span>→</span>
+          </a>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="service-card reveal">
+          <span class="service-num">03</span>
+          <svg class="service-icon" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 38L20 14l10 16 8-10 8 18" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="6" y="6" width="40" height="40" rx="1" stroke="currentColor" stroke-width="1.2"/>
+            <circle cx="38" cy="16" r="4" stroke="currentColor" stroke-width="1.2"/>
+          </svg>
+          <h2 class="service-name" data-en="3D Visualisation" data-mk="3D Визуализација">3D Визуализација</h2>
+          <p class="service-desc"
+             data-en="Photorealistic renders and animations that bring your project to life before a single brick is laid. An essential tool for client presentations, planning applications, and marketing materials."
+             data-mk="Фотореалистични рендери и анимации кои го оживуваат вашиот проект пред да биде поставена и една тула. Суштинска алатка за презентации, апликации за планирање и маркетинг материјали.">
+            Фотореалистични рендери и анимации кои го оживуваат вашиот проект пред да биде поставена и една тула. Суштинска алатка за презентации, апликации за планирање и маркетинг материјали.
+          </p>
+          <ul class="service-list">
+            <li data-en="Exterior &amp; interior renders" data-mk="Екстериерни и ентериерни рендери">Екстериерни и ентериерни рендери</li>
+            <li data-en="Walkthroughs &amp; flyovers" data-mk="Прошетки и прелети">Прошетки и прелети</li>
+            <li data-en="Material &amp; lighting studies" data-mk="Студии на материјали и осветлување">Студии на материјали и осветлување</li>
+            <li data-en="360° panoramic views" data-mk="360° панорамски прегледи">360° панорамски прегледи</li>
+          </ul>
+          <div class="service-divider"></div>
+          <a href="index.html#contact" class="service-cta">
+            <span data-en="Request a Render" data-mk="Побарај визуализација">Побарај визуализација</span>
+            <span>→</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT STRIP ────────────────────────────────────── -->
+  <div class="contact-strip">
+    <div class="strip-inner">
+      <div class="strip-text">
+        <h3 data-en="Ready to start?" data-mk="Подготвени за почеток?">Подготвени за почеток?</h3>
+        <p data-en="Let's discuss your project and find the right service for you." data-mk="Ајде да разговараме за вашиот проект и да ја пронајдеме вистинската услуга за вас.">
+          Ајде да разговараме за вашиот проект и да ја пронајдеме вистинската услуга за вас.
+        </p>
+      </div>
+      <a href="index.html#contact" class="strip-btn">
+        <span data-en="Get in Touch" data-mk="Контактирај ме">Контактирај ме</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── FOOTER ───────────────────────────────────────────── -->
+  <footer>
+    <p data-en="© 2026 Sandra Gjorgievski. All rights reserved." data-mk="© 2026 Сандра Ѓоргиевски. Сите права задржани.">© 2026 Сандра Ѓоргиевски. Сите права задржани.</p>
+    <p data-en="Architect · Skopje, North Macedonia" data-mk="Архитект · Скопје, Северна Македонија">Архитект · Скопје, Северна Македонија</p>
+  </footer>
+
+  <script>
+    /* ── Language ─────────────────────────────────────────── */
+    let lang = 'mk';
+
+    function setLang(l) {
+      lang = l;
+
+      document.querySelectorAll('[data-en]').forEach(el => {
+        const val = el.getAttribute('data-' + l);
+        if (val !== null) el.textContent = val;
+      });
+
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === l);
+      });
+
+      document.documentElement.lang = l === 'mk' ? 'mk' : 'en';
+    }
+
+    /* ── Mobile menu ──────────────────────────────────────── */
+    function toggleMobile() {
+      const menu = document.getElementById('mobile-menu');
+      const btn  = document.getElementById('hamburger');
+      const open = menu.classList.toggle('open');
+      btn.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+
+    function closeMobile() {
+      document.getElementById('mobile-menu').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    /* ── Scroll reveal ────────────────────────────────────── */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
