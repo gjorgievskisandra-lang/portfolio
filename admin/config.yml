@@ -50,6 +50,7 @@ collections:
         name: images
         widget: list
         label_singular: "Слика"
+        allow_add: true
         required: false
         field:
           label: "Слика"
