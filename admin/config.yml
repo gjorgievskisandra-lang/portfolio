@@ -66,3 +66,57 @@ collections:
         name: description_en
         widget: text
         required: false
+
+  - name: certificates
+    label: Сертификати
+    label_singular: Сертификат
+    folder: _data/certificates
+    create: true
+    delete: true
+    slug: "{{fields.title_en}}"
+    format: json
+    fields:
+      - label: "Наслов (МК)"
+        name: title_mk
+        widget: string
+
+      - label: "Title (EN)"
+        name: title_en
+        widget: string
+
+      - label: "Издавач (МК) — на пр. Универзитет ФОН"
+        name: issuer_mk
+        widget: string
+
+      - label: "Issuer (EN) — e.g. FON University"
+        name: issuer_en
+        widget: string
+
+      - label: "Година"
+        name: year
+        widget: number
+        value_type: int
+        min: 1990
+        max: 2035
+        required: false
+
+      - label: "Слика од сертификатот (JPG/PNG)"
+        name: image
+        widget: image
+        required: false
+
+      - label: "Краток опис (МК)"
+        name: description_mk
+        widget: text
+        required: false
+
+      - label: "Short description (EN)"
+        name: description_en
+        widget: text
+        required: false
+
+      - label: "Редослед (1 = прв)"
+        name: order
+        widget: number
+        value_type: int
+        required: false
