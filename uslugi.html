@@ -51,12 +51,46 @@
     }
 
     .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.65rem;
-      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
       color: var(--sage-dark);
       text-decoration: none;
-      letter-spacing: 0.06em;
+      line-height: 1;
+    }
+    .nav-logo svg {
+      height: 34px;
+      width: auto;
+      flex-shrink: 0;
+      overflow: visible;
+    }
+    .nav-logo svg path { fill: none; stroke: currentColor; stroke-width: 1.1; vector-effect: non-scaling-stroke; }
+    .nav-logo svg path.f { stroke-width: 0.7; opacity: 0.8; }
+    .nav-logo svg circle { fill: currentColor; }
+    .nav-logo-sep { width: 1px; height: 30px; background: var(--sage-light); opacity: 0.7; }
+    .nav-logo-txt { display: flex; flex-direction: column; gap: 0.38rem; }
+    .nav-logo-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+      letter-spacing: 0.24em;
+      color: var(--text-dark);
+      white-space: nowrap;
+    }
+    .nav-logo-role {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.56rem;
+      font-weight: 400;
+      letter-spacing: 0.38em;
+      color: var(--text-light);
+      white-space: nowrap;
+    }
+    @media (max-width: 1250px) and (min-width: 769px) { .nav-logo-sep, .nav-logo-txt { display: none; } }
+    @media (max-width: 520px) {
+      .nav-logo { gap: 0.6rem; }
+      .nav-logo svg { height: 28px; }
+      .nav-logo-sep { height: 22px; }
+      .nav-logo-name { font-size: 0.82rem; letter-spacing: 0.16em; }
     }
 
     .nav-right {
@@ -479,7 +513,19 @@
 
   <!-- ── NAV ─────────────────────────────────────────────── -->
   <nav>
-    <a href="index.html" class="nav-logo">SG</a>
+    <a href="index.html" class="nav-logo" aria-label="Sandra Gjorgievski">
+      <svg viewBox="18 20 184 146" aria-hidden="true">
+        <path d="M40 150 V30 H180 V150"/><path d="M78 150 V82 A32 32 0 0 1 142 82 V150"/>
+        <path class="f" d="M86 150 V84 A24 24 0 0 1 134 84 V150"/><path class="f" d="M86 118 H134"/>
+        <path d="M24 150 H196"/><path class="f" d="M60 157 H160"/><path class="f" d="M160 30 V62 H180"/>
+        <circle cx="110" cy="100" r="6"/>
+      </svg>
+      <span class="nav-logo-sep"></span>
+      <span class="nav-logo-txt">
+        <span class="nav-logo-name">SANDRA GJORGIEVSKI</span>
+        <span class="nav-logo-role">ARCHITECTURE · INTERIORS</span>
+      </span>
+    </a>
     <ul class="nav-right">
       <li><a href="index.html#about"     data-en="About"     data-mk="За мене">За мене</a></li>
       <li><a href="index.html#portfolio" data-en="Portfolio" data-mk="Портфолио">Портфолио</a></li>

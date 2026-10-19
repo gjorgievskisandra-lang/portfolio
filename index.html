@@ -54,12 +54,46 @@
     nav.scrolled { padding: 0.9rem 5rem; }
 
     .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.65rem;
-      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
       color: var(--sage-dark);
       text-decoration: none;
-      letter-spacing: 0.06em;
+      line-height: 1;
+    }
+    .nav-logo svg {
+      height: 34px;
+      width: auto;
+      flex-shrink: 0;
+      overflow: visible;
+    }
+    .nav-logo svg path { fill: none; stroke: currentColor; stroke-width: 1.1; vector-effect: non-scaling-stroke; }
+    .nav-logo svg path.f { stroke-width: 0.7; opacity: 0.8; }
+    .nav-logo svg circle { fill: currentColor; }
+    .nav-logo-sep { width: 1px; height: 30px; background: var(--sage-light); opacity: 0.7; }
+    .nav-logo-txt { display: flex; flex-direction: column; gap: 0.38rem; }
+    .nav-logo-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+      letter-spacing: 0.24em;
+      color: var(--text-dark);
+      white-space: nowrap;
+    }
+    .nav-logo-role {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.56rem;
+      font-weight: 400;
+      letter-spacing: 0.38em;
+      color: var(--text-light);
+      white-space: nowrap;
+    }
+    @media (max-width: 1250px) and (min-width: 769px) { .nav-logo-sep, .nav-logo-txt { display: none; } }
+    @media (max-width: 520px) {
+      .nav-logo { gap: 0.6rem; }
+      .nav-logo svg { height: 28px; }
+      .nav-logo-sep { height: 22px; }
+      .nav-logo-name { font-size: 0.82rem; letter-spacing: 0.16em; }
     }
 
     .nav-right {
@@ -951,7 +985,19 @@
 
   <!-- ── NAV ─────────────────────────────────────────────── -->
   <nav id="main-nav">
-    <a href="#" class="nav-logo">SG</a>
+    <a href="#" class="nav-logo" aria-label="Sandra Gjorgievski">
+      <svg viewBox="18 20 184 146" aria-hidden="true">
+        <path d="M40 150 V30 H180 V150"/><path d="M78 150 V82 A32 32 0 0 1 142 82 V150"/>
+        <path class="f" d="M86 150 V84 A24 24 0 0 1 134 84 V150"/><path class="f" d="M86 118 H134"/>
+        <path d="M24 150 H196"/><path class="f" d="M60 157 H160"/><path class="f" d="M160 30 V62 H180"/>
+        <circle cx="110" cy="100" r="6"/>
+      </svg>
+      <span class="nav-logo-sep"></span>
+      <span class="nav-logo-txt">
+        <span class="nav-logo-name">SANDRA GJORGIEVSKI</span>
+        <span class="nav-logo-role">ARCHITECTURE · INTERIORS</span>
+      </span>
+    </a>
     <ul class="nav-right">
       <li><a href="#about"     data-en="About"     data-mk="За мене">About</a></li>
       <li><a href="#portfolio" data-en="Portfolio" data-mk="Портфолио">Portfolio</a></li>
@@ -1098,9 +1144,9 @@
         <div>
           <p class="section-label" data-en="Portfolio" data-mk="Портфолио">Portfolio</p>
           <h2 class="section-title" data-en="From Concept to Space" data-mk="Од идеја до простор">From Concept to Space</h2>
-<p class="portfolio-note" data-en="A selection of built and conceptual work — residential architecture, public buildings and interiors, from first sketch to final visualization." data-mk="Избор од реализирани и идејни проекти — станбена архитектура, јавни објекти и ентериери, од прва скица до финална визуализација.">
+        </div>
+        <p class="portfolio-note" data-en="A selection of built and conceptual work — residential architecture, public buildings and interiors, from first sketch to final visualization." data-mk="Избор од реализирани и идејни проекти — станбена архитектура, јавни објекти и ентериери, од прва скица до финална визуализација.">
           A selection of built and conceptual work — residential architecture, public buildings and interiors, from first sketch to final visualization.
-        </p>ommission.
         </p>
       </div>
       <div class="portfolio-grid" id="portfolio-grid">
@@ -1380,6 +1426,24 @@
       return [];
     }
 
+    // Netlify Image CDN: автоматски намалени и компресирани слики (WebP/AVIF)
+    const useCdn = /netlify\.app$/.test(location.hostname) || location.hostname.endsWith('sandragjorgievski.com');
+    function imgUrl(src, w) {
+      if (!src || !useCdn || !src.startsWith('/')) return src;
+      return `/.netlify/images?url=${encodeURIComponent(src)}&w=${w}&q=78`;
+    }
+    function fallbackAttr(src) {
+      return `onerror="this.onerror=null;this.src='${String(src).replace(/'/g, "%27")}'"`;
+    }
+    const preloaded = new Set();
+    function preload(src, w) {
+      const u = imgUrl(src, w);
+      if (!u || preloaded.has(u)) return;
+      preloaded.add(u);
+      const im = new Image(); im.decoding = 'async'; im.src = u;
+    }
+    const BIG = 2000, THUMB = 240, CARD = 900;
+
     function openModal(idx) {
       const p = projectsData[idx];
       if (!p) return;
@@ -1403,6 +1467,15 @@
 
       document.getElementById('project-modal').classList.add('open');
       document.body.style.overflow = 'hidden';
+    }
+
+    // При допир/лизгање со глувчето врз картичка — однапред вчитај ја првата слика
+    function warmProject(idx) {
+      const p = projectsData[idx];
+      if (!p) return;
+      const imgs = getImages(p);
+      if (imgs[0]) preload(imgs[0], BIG);
+      imgs.slice(0, 12).forEach(src => preload(src, THUMB));
     }
 
     function closeModal() {
@@ -1437,7 +1510,13 @@
         return;
       }
 
-      display.innerHTML = `<img src="${currentImages[currentImgIdx]}" alt="" loading="eager">`;
+      const cur = currentImages[currentImgIdx];
+      display.innerHTML = `<img src="${imgUrl(cur, BIG)}" alt="" loading="eager" fetchpriority="high" decoding="async" ${fallbackAttr(cur)}>`;
+      // Однапред вчитај ја следната и претходната слика
+      if (multi) {
+        preload(currentImages[(currentImgIdx + 1) % currentImages.length], BIG);
+        preload(currentImages[(currentImgIdx - 1 + currentImages.length) % currentImages.length], BIG);
+      }
 
       // Arrows + counter
       prevBtn.style.display = nextBtn.style.display = multi ? 'flex' : 'none';
@@ -1446,13 +1525,17 @@
       // Thumbnails
       if (multi) {
         thumbsEl.style.display = 'flex';
-        thumbsEl.innerHTML = currentImages.map((src, i) =>
-          `<img class="modal-thumb${i === currentImgIdx ? ' active' : ''}"
-               src="${src}" alt="" loading="lazy" onclick="galleryGoTo(${i})">`
-        ).join('');
+        if (thumbsEl.dataset.key !== currentImages.join('|')) {
+          thumbsEl.dataset.key = currentImages.join('|');
+          thumbsEl.innerHTML = currentImages.map((src, i) =>
+            `<img class="modal-thumb" src="${imgUrl(src, THUMB)}" alt="" loading="lazy" decoding="async" ${fallbackAttr(src)} onclick="galleryGoTo(${i})">`
+          ).join('');
+        }
+        thumbsEl.querySelectorAll('.modal-thumb').forEach((t, i) => t.classList.toggle('active', i === currentImgIdx));
       } else {
         thumbsEl.style.display = 'none';
         thumbsEl.innerHTML = '';
+        thumbsEl.dataset.key = '';
       }
     }
 
@@ -1487,11 +1570,11 @@
         const imgs  = getImages(p);
         const thumb = imgs[0] || '';
         const imgHtml = thumb
-          ? `<img src="${esc(thumb)}" alt="${esc(p.title_en)}" loading="lazy">`
+          ? `<img src="${esc(imgUrl(thumb, CARD))}" alt="${esc(p.title_en)}" loading="${i < 3 ? 'eager' : 'lazy'}" decoding="async" ${fallbackAttr(thumb)}>`
           : `<span class="proj-num">${num}</span>`;
         const bgStyle = thumb ? '' : ` style="background:${gradients[i % gradients.length]}"`;
         return `
-          <div class="project-card reveal" onclick="openModal(${i})">
+          <div class="project-card reveal" onclick="openModal(${i})" onmouseenter="warmProject(${i})" ontouchstart="warmProject(${i})">
             <div class="project-img-wrap">
               <div class="project-img"${bgStyle}>${imgHtml}</div>
             </div>
@@ -1503,6 +1586,22 @@
           </div>`;
       }
 
+      function render(projects) {
+        projects.sort((a, b) => b.year - a.year);
+        projectsData = projects;
+        grid.innerHTML = projects.map(cardHtml).join('');
+        grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+      }
+
+      // 1) Веднаш прикажи ги проектите од кеш (ако страната веќе била отворена)
+      const CACHE_KEY = 'sg_projects_v1';
+      let cachedJson = null;
+      try {
+        cachedJson = localStorage.getItem(CACHE_KEY);
+        if (cachedJson) render(JSON.parse(cachedJson));
+      } catch (_) {}
+
+      // 2) Освежи од GitHub; JSON фајловите се читаат директно од страната (побрзо)
       try {
         const res = await fetch('https://api.github.com/repos/gjorgievskisandra-lang/portfolio/contents/_data/projects?ref=main');
         if (!res.ok) return;
@@ -1510,14 +1609,15 @@
         const jsonFiles = files.filter(f => f.name.endsWith('.json'));
         if (!jsonFiles.length) return;
 
-        const projects = await Promise.all(jsonFiles.map(f => fetch(f.download_url).then(r => r.json())));
-        projects.sort((a, b) => b.year - a.year);
-        projectsData = projects;
-
-        grid.innerHTML = projects.map(cardHtml).join('');
-        grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        const projects = await Promise.all(jsonFiles.map(f =>
+          fetch('/' + f.path).then(r => { if (!r.ok) throw 0; return r.json(); })
+            .catch(() => fetch(f.download_url).then(r => r.json()))
+        ));
+        const fresh = JSON.stringify(projects);
+        if (fresh !== cachedJson) render(projects);
+        try { localStorage.setItem(CACHE_KEY, fresh); } catch (_) {}
       } catch (_) {
-        // API недостапно или rate limit — остануваат placeholder картички
+        // API недостапно или rate limit — остануваат кешираните или placeholder картички
       }
     })();
   </script>
