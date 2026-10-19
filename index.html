@@ -630,6 +630,39 @@
       line-height: 1.5;
     }
 
+    /* ── CERTIFICATES ───────────────────────────────── */
+    #certificates { background-color: var(--cream-mid); }
+    .certs-top { margin-bottom: 3.5rem; display: flex; justify-content: space-between; align-items: flex-end; gap: 1.5rem; flex-wrap: wrap; }
+    .certs-note { font-size: 0.78rem; font-weight: 300; color: var(--text-light); letter-spacing: 0.05em; max-width: 300px; text-align: right; line-height: 1.7; }
+    .certs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; }
+    .cert-card {
+      position: relative;
+      background: var(--cream);
+      border: 1px solid var(--cream-dark);
+      padding: 2.2rem 2rem 1.9rem;
+      display: flex; flex-direction: column; gap: 0.9rem;
+      min-height: 220px;
+      transition: border-color .35s ease, transform .35s ease, box-shadow .35s ease;
+    }
+    .cert-card::after {
+      content: ''; position: absolute; top: 0; left: 2rem; width: 36px; height: 2px; background: var(--sage);
+    }
+    .cert-card.has-img { cursor: pointer; }
+    .cert-card.has-img:hover { border-color: var(--sage-light); transform: translateY(-3px); box-shadow: 0 14px 30px -18px rgba(42,53,36,.35); }
+    .cert-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+    .cert-issuer { font-size: 0.66rem; font-weight: 400; letter-spacing: 0.24em; text-transform: uppercase; color: var(--sage-dark); }
+    .cert-year { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--text-light); }
+    .cert-title { font-family: 'Cormorant Garamond', serif; font-size: 1.55rem; font-weight: 400; line-height: 1.2; color: var(--text-dark); }
+    .cert-desc { font-size: 0.82rem; font-weight: 300; line-height: 1.7; color: var(--text-mid); }
+    .cert-link { margin-top: auto; font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--sage-dark); display: inline-flex; gap: .5rem; align-items: center; }
+    .cert-link span { transition: transform .3s ease; }
+    .cert-card:hover .cert-link span { transform: translateX(4px); }
+    @media (max-width: 1024px) { .certs-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 768px) {
+      .certs-grid { grid-template-columns: 1fr; }
+      .certs-note { text-align: left; }
+    }
+
     /* ── PORTFOLIO ──────────────────────────────────── */
     #portfolio { background-color: var(--cream); }
 
@@ -1123,6 +1156,7 @@
     <ul class="nav-right">
       <li><a href="#about"     data-en="About"     data-mk="За мене">About</a></li>
       <li><a href="#portfolio" data-en="Portfolio" data-mk="Портфолио">Portfolio</a></li>
+      <li><a href="#certificates" data-en="Certifications" data-mk="Сертификати">Certifications</a></li>
       <li><a href="uslugi.html" data-en="Services" data-mk="Услуги">Services</a></li>
       <li><a href="#contact"   data-en="Contact"   data-mk="Контакт">Contact</a></li>
       <li>
@@ -1145,6 +1179,7 @@
   <div class="mobile-menu" id="mobile-menu">
     <a href="#about"     onclick="closeMobile()" data-en="About"     data-mk="За мене">About</a>
     <a href="#portfolio"  onclick="closeMobile()" data-en="Portfolio" data-mk="Портфолио">Portfolio</a>
+    <a href="#certificates" onclick="closeMobile()" data-en="Certifications" data-mk="Сертификати">Certifications</a>
     <a href="uslugi.html" onclick="closeMobile()" data-en="Services"  data-mk="Услуги">Services</a>
     <a href="#contact"    onclick="closeMobile()" data-en="Contact"   data-mk="Контакт">Contact</a>
     <div class="mobile-lang">
@@ -1343,6 +1378,31 @@
     </div>
   </section>
 
+  <!-- ── CERTIFICATES ──────────────────────────────────── -->
+  <section id="certificates">
+    <div class="container">
+      <div class="certs-top reveal">
+        <div>
+          <p class="section-label" data-en="Credentials" data-mk="Квалификации">Credentials</p>
+          <h2 class="section-title" data-en="Education &amp; Certifications" data-mk="Образование и сертификати">Education &amp; Certifications</h2>
+        </div>
+        <p class="certs-note" data-en="Formal education and professional training that support every project — from concept to technical documentation." data-mk="Формално образование и стручни обуки што стојат зад секој проект — од концепт до техничка документација.">
+          Formal education and professional training that support every project — from concept to technical documentation.
+        </p>
+      </div>
+      <div class="certs-grid" id="certs-grid">
+        <div class="cert-card reveal">
+          <div class="cert-head"><span class="cert-issuer" data-en="FON University, Skopje" data-mk="Универзитет ФОН, Скопје">FON University, Skopje</span></div>
+          <p class="cert-title" data-en="Diploma — Graduate Engineer Architect" data-mk="Диплома — дипломиран инженер архитект">Diploma — Graduate Engineer Architect</p>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-head"><span class="cert-issuer">Revi Studio</span></div>
+          <p class="cert-title" data-en="Revit Architecture — Certified Course" data-mk="Revit Architecture — сертифициран курс">Revit Architecture — Certified Course</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ── CONTACT ─────────────────────────────────────────── -->
   <section id="contact">
     <div class="container">
@@ -1535,6 +1595,7 @@
 
     /* ── Portfolio: dynamic load + modal ─────────────────── */
     let projectsData  = [];
+    let certsData     = [];
     let currentImages = [];
     let currentImgIdx = 0;
 
@@ -1566,8 +1627,18 @@
     }
     const BIG = 2000, THUMB = 240, CARD = 900;
 
-    function openModal(idx) {
-      const p = projectsData[idx];
+    function openModal(idx) { showInModal(projectsData[idx]); }
+    function openCert(idx) {
+      const c = certsData[idx];
+      if (!c || !c.image) return;
+      showInModal({
+        title_en: c.title_en, title_mk: c.title_mk,
+        category_en: c.issuer_en, category_mk: c.issuer_mk || c.issuer_en,
+        description_en: c.description_en, description_mk: c.description_mk,
+        year: c.year, images: [c.image]
+      });
+    }
+    function showInModal(p) {
       if (!p) return;
 
       currentImages = getImages(p);
@@ -1741,6 +1812,48 @@
       } catch (_) {
         // API недостапно или rate limit — остануваат кешираните или placeholder картички
       }
+    })();
+
+    (async function loadCertificates() {
+      const grid = document.getElementById('certs-grid');
+      if (!grid) return;
+      const esc = s => String(s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      const t = (en, mk) => esc(lang === 'en' ? (en || mk) : (mk || en));
+      function card(c, i) {
+        const img = !!c.image;
+        return `
+          <div class="cert-card reveal${img ? ' has-img' : ''}"${img ? ` onclick="openCert(${i})" onmouseenter="preload('${esc(c.image)}', BIG)"` : ''}>
+            <div class="cert-head">
+              <span class="cert-issuer" data-en="${esc(c.issuer_en)}" data-mk="${esc(c.issuer_mk || c.issuer_en)}">${t(c.issuer_en, c.issuer_mk)}</span>
+              ${c.year ? `<span class="cert-year">${Number(c.year)}</span>` : ''}
+            </div>
+            <p class="cert-title" data-en="${esc(c.title_en)}" data-mk="${esc(c.title_mk || c.title_en)}">${t(c.title_en, c.title_mk)}</p>
+            ${(c.description_en || c.description_mk) ? `<p class="cert-desc" data-en="${esc(c.description_en)}" data-mk="${esc(c.description_mk || c.description_en)}">${t(c.description_en, c.description_mk)}</p>` : ''}
+            ${img ? `<span class="cert-link" data-en="View certificate" data-mk="Погледни сертификат">${lang === 'en' ? 'View certificate' : 'Погледни сертификат'}</span>` : ''}
+          </div>`;
+      }
+      function render(list) {
+        list.sort((a, b) => (Number(a.order) || 99) - (Number(b.order) || 99) || (Number(b.year) || 0) - (Number(a.year) || 0));
+        certsData = list;
+        grid.innerHTML = list.map(card).join('');
+        grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+      }
+      const KEY = 'sg_certs_v1';
+      let cached = null;
+      try { cached = localStorage.getItem(KEY); if (cached) render(JSON.parse(cached)); } catch (_) {}
+      try {
+        const res = await fetch('https://api.github.com/repos/gjorgievskisandra-lang/portfolio/contents/_data/certificates?ref=main');
+        if (!res.ok) return;
+        const files = (await res.json()).filter(f => f.name.endsWith('.json'));
+        if (!files.length) return;
+        const list = await Promise.all(files.map(f =>
+          fetch('/' + f.path).then(r => { if (!r.ok) throw 0; return r.json(); })
+            .catch(() => fetch(f.download_url).then(r => r.json()))
+        ));
+        const fresh = JSON.stringify(list);
+        if (fresh !== cached) render(list);
+        try { localStorage.setItem(KEY, fresh); } catch (_) {}
+      } catch (_) {}
     })();
   </script>
 </body>
