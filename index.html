@@ -647,7 +647,25 @@
     .cert-card::after {
       content: ''; position: absolute; top: 0; left: 2rem; width: 36px; height: 2px; background: var(--sage);
     }
-    .cert-card.has-img { cursor: pointer; }
+    .cert-card.has-img { cursor: pointer; padding-top: 0; }
+    .cert-card.has-img::after { display: none; }
+    .cert-img {
+      margin: 0 -2rem 0.5rem;
+      aspect-ratio: 4 / 3;
+      background: linear-gradient(160deg, #EFE9DD, #E4DCCB);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.4rem;
+      overflow: hidden;
+      border-bottom: 1px solid var(--cream-dark);
+    }
+    .cert-img img {
+      max-width: 100%; max-height: 100%;
+      object-fit: contain;
+      background: #fff;
+      box-shadow: 0 10px 24px -14px rgba(42,53,36,.45);
+      transition: transform .5s ease;
+    }
+    .cert-card.has-img:hover .cert-img img { transform: scale(1.035); }
     .cert-card.has-img:hover { border-color: var(--sage-light); transform: translateY(-3px); box-shadow: 0 14px 30px -18px rgba(42,53,36,.35); }
     .cert-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
     .cert-issuer { font-size: 0.66rem; font-weight: 400; letter-spacing: 0.24em; text-transform: uppercase; color: var(--sage-dark); }
@@ -1383,18 +1401,14 @@
     <div class="container">
       <div class="certs-top reveal">
         <div>
-          <p class="section-label" data-en="Credentials" data-mk="Квалификации">Credentials</p>
-          <h2 class="section-title" data-en="Education &amp; Certifications" data-mk="Образование и сертификати">Education &amp; Certifications</h2>
+          <p class="section-label" data-en="Professional Development" data-mk="Стручно усовршување">Professional Development</p>
+          <h2 class="section-title" data-en="Certifications" data-mk="Сертификати">Certifications</h2>
         </div>
-        <p class="certs-note" data-en="Formal education and professional training that support every project — from concept to technical documentation." data-mk="Формално образование и стручни обуки што стојат зад секој проект — од концепт до техничка документација.">
-          Formal education and professional training that support every project — from concept to technical documentation.
+        <p class="certs-note" data-en="Professional training and certified courses behind every project — from concept to technical documentation." data-mk="Стручни обуки и сертифицирани курсеви што стојат зад секој проект — од концепт до техничка документација.">
+          Professional training and certified courses behind every project — from concept to technical documentation.
         </p>
       </div>
       <div class="certs-grid" id="certs-grid">
-        <div class="cert-card reveal">
-          <div class="cert-head"><span class="cert-issuer" data-en="FON University, Skopje" data-mk="Универзитет ФОН, Скопје">FON University, Skopje</span></div>
-          <p class="cert-title" data-en="Diploma — Graduate Engineer Architect" data-mk="Диплома — дипломиран инженер архитект">Diploma — Graduate Engineer Architect</p>
-        </div>
         <div class="cert-card reveal">
           <div class="cert-head"><span class="cert-issuer">Revi Studio</span></div>
           <p class="cert-title" data-en="Revit Architecture — Certified Course" data-mk="Revit Architecture — сертифициран курс">Revit Architecture — Certified Course</p>
@@ -1823,6 +1837,7 @@
         const img = !!c.image;
         return `
           <div class="cert-card reveal${img ? ' has-img' : ''}"${img ? ` onclick="openCert(${i})" onmouseenter="preload('${esc(c.image)}', BIG)"` : ''}>
+            ${img ? `<div class="cert-img"><img src="${esc(imgUrl(c.image, 800))}" alt="${t(c.title_en, c.title_mk)}" loading="lazy" decoding="async" ${fallbackAttr(c.image)}></div>` : ''}
             <div class="cert-head">
               <span class="cert-issuer" data-en="${esc(c.issuer_en)}" data-mk="${esc(c.issuer_mk || c.issuer_en)}">${t(c.issuer_en, c.issuer_mk)}</span>
               ${c.year ? `<span class="cert-year">${Number(c.year)}</span>` : ''}
