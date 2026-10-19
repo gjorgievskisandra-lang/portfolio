@@ -383,14 +383,51 @@
       pointer-events: none;
     }
 
-    .about-initials {
+    .about-mark {
+      width: 68%;
+      max-width: 300px;
+      height: auto;
+      overflow: visible;
+      color: #fff;
+    }
+    .about-mark .ln {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 0.8;
+      stroke-linecap: round;
+      opacity: 0.75;
+      stroke-dasharray: 600;
+      stroke-dashoffset: 600;
+      transition: stroke-dashoffset 2.4s cubic-bezier(.6,.1,.2,1);
+    }
+    .about-mark .ln.fine { stroke-width: 0.5; opacity: 0.5; }
+    .about-mark .sun {
+      fill: currentColor;
+      opacity: 0;
+      transition: opacity 1.2s ease 1.6s;
+    }
+    .about-mark .txt {
+      fill: currentColor;
+      opacity: 0;
+      transition: opacity 1.4s ease 1.2s;
+    }
+    .about-mark .name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 5.5rem;
       font-weight: 300;
-      color: rgba(255,255,255,0.45);
-      letter-spacing: 0.3em;
-      padding-left: 0.3em;
-      user-select: none;
+      font-size: 17px;
+      letter-spacing: 0.32em;
+    }
+    .about-mark .role {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 6.2px;
+      letter-spacing: 0.55em;
+    }
+    .reveal.visible .about-mark .ln { stroke-dashoffset: 0; }
+    .reveal.visible .about-mark .sun { opacity: 0.6; }
+    .reveal.visible .about-mark .txt { opacity: 0.85; }
+    @media (prefers-reduced-motion: reduce) {
+      .about-mark .ln, .about-mark .sun, .about-mark .txt { transition: none; }
     }
 
     .about-img-accent {
@@ -898,6 +935,7 @@
 
       .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .about-img-placeholder { aspect-ratio: 3 / 2; }
+      .about-mark { width: auto; height: 84%; }
       .about-img-accent { display: none; }
 
       .portfolio-grid { grid-template-columns: 1fr; }
@@ -1012,7 +1050,25 @@
       <div class="about-grid">
         <div class="about-img-wrap reveal">
           <div class="about-img-placeholder">
-            <span class="about-initials">S G</span>
+            <svg class="about-mark" viewBox="0 0 220 250" role="img" aria-label="Sandra Gjorgievski">
+              <!-- frame -->
+              <path class="ln" d="M40 150 V30 H180 V150" />
+              <!-- arch opening -->
+              <path class="ln" d="M78 150 V82 A32 32 0 0 1 142 82 V150" />
+              <!-- inner arch, offset -->
+              <path class="ln fine" d="M86 150 V84 A24 24 0 0 1 134 84 V150" />
+              <!-- horizon -->
+              <path class="ln fine" d="M86 118 H134" />
+              <!-- steps / ground -->
+              <path class="ln" d="M24 150 H196" />
+              <path class="ln fine" d="M60 157 H160" />
+              <!-- grid tick, Japandi asymmetry -->
+              <path class="ln fine" d="M160 30 V62 H180" />
+              <circle class="sun" cx="110" cy="100" r="5" />
+              <text class="txt name" x="114" y="200" text-anchor="middle">SANDRA</text>
+              <text class="txt name" x="114" y="222" text-anchor="middle">GJORGIEVSKI</text>
+              <text class="txt role" x="113" y="244" text-anchor="middle">ARCHITECTURE · INTERIORS</text>
+            </svg>
           </div>
           <div class="about-img-accent"></div>
         </div>
@@ -1020,9 +1076,9 @@
           <p class="section-label" data-en="About" data-mk="За мене">About</p>
           <h2 class="section-title" data-en="Every Line Has a Purpose" data-mk="Секоја линија има причина">Секоја линија има причина</h2>
           <p class="about-subtitle" data-en="Spaces Created for Living" data-mk="Простори создадени за живот">Простори создадени за живот</p>
-          <p data-en="I am Sandra Gjorgievski, an architect from Skopje with 7+ years of experience in residential architecture and interior design. I work with Revit, ArchiCAD, AutoCAD, D5 Render and 3ds Max — from concept to final visualization."
-             data-mk="Јас сум Сандра Ѓоргиевски, архитект од Скопје со 7+ години искуство во резиденцијална архитектура и ентериер дизајн. Работам со Revit, ArchiCAD, AutoCAD, D5 Render и 3ds Max — од концепт до финална визуализација.">
-            Јас сум Сандра Ѓоргиевски, архитект од Скопје со 7+ години искуство во резиденцијална архитектура и ентериер дизајн. Работам со Revit, ArchiCAD, AutoCAD, D5 Render и 3ds Max — од концепт до финална визуализација.
+          <p data-en="I am Sandra Gjorgievski, a graduate engineer architect from Skopje with 7+ years of experience in residential architecture and interior design. I work with Revit, ArchiCAD, D5 Render and Lumion — from concept to final visualization."
+             data-mk="Јас сум Сандра Ѓоргиевски, дипломиран инженер архитект од Скопје со 7+ години искуство во резиденцијална архитектура и ентериер дизајн. Работам со Revit, ArchiCAD, D5 Render и Lumion — од концепт до финална визуализација.">
+            Јас сум Сандра Ѓоргиевски, дипломиран инженер архитект од Скопје со 7+ години искуство во резиденцијална архитектура и ентериер дизајн. Работам со Revit, ArchiCAD, D5 Render и Lumion — од концепт до финална визуализација.
           </p>
           <div class="about-stats">
             <div>
