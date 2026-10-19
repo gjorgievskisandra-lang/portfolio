@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 
-Sitemap: https://sandragjorgievski.netlify.app/sitemap.xml
+Sitemap: https://sandragjorgievski.pages.dev/sitemap.xml
