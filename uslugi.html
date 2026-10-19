@@ -7,7 +7,7 @@
   <meta name="description" content="Concept design, technical documentation, interior design and photorealistic 3D visualization for residential projects. Remote collaboration with clients in North Macedonia and across Europe.">
   <meta name="author" content="Sandra Gjorgievski">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://sandragjorgievski.netlify.app/uslugi.html">
+  <link rel="canonical" href="https://sandragjorgievski.pages.dev/uslugi.html">
   <meta name="theme-color" content="#F7F3EB">
 
   <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Viber, Messenger) -->
@@ -15,9 +15,9 @@
   <meta property="og:site_name" content="Sandra Gjorgievski — Architecture & Interiors">
   <meta property="og:title" content="Services — Architectural Design, Interiors & 3D Visualization | Sandra Gjorgievski">
   <meta property="og:description" content="Concept design, technical documentation, interior design and photorealistic 3D visualization for residential projects. Remote collaboration with clients in North Macedonia and across Europe.">
-  <meta property="og:url" content="https://sandragjorgievski.netlify.app/uslugi.html">
-  <meta property="og:image" content="https://sandragjorgievski.netlify.app/og-image.jpg">
-  <meta property="og:image:secure_url" content="https://sandragjorgievski.netlify.app/og-image.jpg">
+  <meta property="og:url" content="https://sandragjorgievski.pages.dev/uslugi.html">
+  <meta property="og:image" content="https://sandragjorgievski.pages.dev/og-image.jpg">
+  <meta property="og:image:secure_url" content="https://sandragjorgievski.pages.dev/og-image.jpg">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -29,7 +29,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Services — Architectural Design, Interiors & 3D Visualization | Sandra Gjorgievski">
   <meta name="twitter:description" content="Concept design, technical documentation, interior design and photorealistic 3D visualization for residential projects. Remote collaboration with clients in North Macedonia and across Europe.">
-  <meta name="twitter:image" content="https://sandragjorgievski.netlify.app/og-image.jpg">
+  <meta name="twitter:image" content="https://sandragjorgievski.pages.dev/og-image.jpg">
 
   <!-- Icons -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -41,9 +41,9 @@
   "@context": "https://schema.org",
   "@type": "WebPage",
   "name": "Services — Sandra Gjorgievski",
-  "url": "https://sandragjorgievski.netlify.app/uslugi.html",
+  "url": "https://sandragjorgievski.pages.dev/uslugi.html",
   "about": {
-    "@id": "https://sandragjorgievski.netlify.app/#studio"
+    "@id": "https://sandragjorgievski.pages.dev/#studio"
   },
   "breadcrumb": {
     "@type": "BreadcrumbList",
@@ -52,13 +52,13 @@
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://sandragjorgievski.netlify.app/"
+        "item": "https://sandragjorgievski.pages.dev/"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Services",
-        "item": "https://sandragjorgievski.netlify.app/uslugi.html"
+        "item": "https://sandragjorgievski.pages.dev/uslugi.html"
       }
     ]
   }
@@ -800,6 +800,7 @@
 
     function setLang(l) {
       lang = l;
+      document.documentElement.lang = l;
 
       document.querySelectorAll('[data-en]').forEach(el => {
         const val = el.getAttribute('data-' + l);

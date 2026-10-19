@@ -7,7 +7,7 @@
   <meta name="description" content="Graduate engineer architect based in Skopje with 7+ years in residential architecture and interior design. Concept design, technical documentation and photorealistic 3D visualization — Revit, ArchiCAD, D5 Render.">
   <meta name="author" content="Sandra Gjorgievski">
   <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://sandragjorgievski.netlify.app/">
+  <link rel="canonical" href="https://sandragjorgievski.pages.dev/">
   <meta name="theme-color" content="#F7F3EB">
 
   <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Viber, Messenger) -->
@@ -15,9 +15,9 @@
   <meta property="og:site_name" content="Sandra Gjorgievski — Architecture & Interiors">
   <meta property="og:title" content="Sandra Gjorgievski — Architect | Architecture, Interiors & 3D Visualization">
   <meta property="og:description" content="Graduate engineer architect based in Skopje with 7+ years in residential architecture and interior design. Concept design, technical documentation and photorealistic 3D visualization — Revit, ArchiCAD, D5 Render.">
-  <meta property="og:url" content="https://sandragjorgievski.netlify.app/">
-  <meta property="og:image" content="https://sandragjorgievski.netlify.app/og-image.jpg">
-  <meta property="og:image:secure_url" content="https://sandragjorgievski.netlify.app/og-image.jpg">
+  <meta property="og:url" content="https://sandragjorgievski.pages.dev/">
+  <meta property="og:image" content="https://sandragjorgievski.pages.dev/og-image.jpg">
+  <meta property="og:image:secure_url" content="https://sandragjorgievski.pages.dev/og-image.jpg">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -29,7 +29,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Sandra Gjorgievski — Architect | Architecture, Interiors & 3D Visualization">
   <meta name="twitter:description" content="Graduate engineer architect based in Skopje with 7+ years in residential architecture and interior design. Concept design, technical documentation and photorealistic 3D visualization — Revit, ArchiCAD, D5 Render.">
-  <meta name="twitter:image" content="https://sandragjorgievski.netlify.app/og-image.jpg">
+  <meta name="twitter:image" content="https://sandragjorgievski.pages.dev/og-image.jpg">
 
   <!-- Icons -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -42,12 +42,12 @@
   "@graph": [
     {
       "@type": "Person",
-      "@id": "https://sandragjorgievski.netlify.app/#sandra",
+      "@id": "https://sandragjorgievski.pages.dev/#sandra",
       "name": "Sandra Gjorgievski",
       "alternateName": "Сандра Ѓоргиевски",
       "jobTitle": "Graduate Engineer Architect",
-      "url": "https://sandragjorgievski.netlify.app/",
-      "image": "https://sandragjorgievski.netlify.app/og-image.jpg",
+      "url": "https://sandragjorgievski.pages.dev/",
+      "image": "https://sandragjorgievski.pages.dev/og-image.jpg",
       "email": "mailto:gjorgievski.sandra@outlook.com",
       "telephone": "+38978453451",
       "address": {
@@ -81,10 +81,10 @@
     },
     {
       "@type": "ProfessionalService",
-      "@id": "https://sandragjorgievski.netlify.app/#studio",
+      "@id": "https://sandragjorgievski.pages.dev/#studio",
       "name": "Sandra Gjorgievski — Architecture & Interiors",
-      "url": "https://sandragjorgievski.netlify.app/",
-      "image": "https://sandragjorgievski.netlify.app/og-image.jpg",
+      "url": "https://sandragjorgievski.pages.dev/",
+      "image": "https://sandragjorgievski.pages.dev/og-image.jpg",
       "telephone": "+38978453451",
       "email": "gjorgievski.sandra@outlook.com",
       "address": {
@@ -103,7 +103,7 @@
         "Greece"
       ],
       "founder": {
-        "@id": "https://sandragjorgievski.netlify.app/#sandra"
+        "@id": "https://sandragjorgievski.pages.dev/#sandra"
       },
       "serviceType": [
         "Architectural design",
@@ -114,15 +114,15 @@
     },
     {
       "@type": "WebSite",
-      "@id": "https://sandragjorgievski.netlify.app/#website",
-      "url": "https://sandragjorgievski.netlify.app/",
+      "@id": "https://sandragjorgievski.pages.dev/#website",
+      "url": "https://sandragjorgievski.pages.dev/",
       "name": "Sandra Gjorgievski",
       "inLanguage": [
         "en",
         "mk"
       ],
       "publisher": {
-        "@id": "https://sandragjorgievski.netlify.app/#sandra"
+        "@id": "https://sandragjorgievski.pages.dev/#sandra"
       }
     }
   ]
@@ -1545,6 +1545,7 @@
 
     function setLang(l) {
       lang = l;
+      document.documentElement.lang = l;
 
       document.querySelectorAll('[data-en]').forEach(el => {
         const val = el.getAttribute('data-' + l);
@@ -1626,8 +1627,13 @@
     // Netlify Image CDN: автоматски намалени и компресирани слики (WebP/AVIF)
     const useCdn = /netlify\.app$/.test(location.hostname) || location.hostname.endsWith('sandragjorgievski.com');
     function imgUrl(src, w) {
-      if (!src || !useCdn || !src.startsWith('/')) return src;
-      return `/.netlify/images?url=${encodeURIComponent(src)}&w=${w}&q=78`;
+      if (!src || !src.startsWith('/')) return src;
+      if (useCdn) return `/.netlify/images?url=${encodeURIComponent(src)}&w=${w}&q=78`;
+      // Cloudflare: помали WebP верзии направени при објавување (build.js)
+      const m = src.match(/^\/uploads\/images\/(.+)\.(jpe?g|png|webp)$/i);
+      if (!m) return src;
+      const b = w <= 240 ? 240 : (w <= 900 ? 900 : 2000);
+      return `/_img/${b}/${m[1]}.webp`;
     }
     function fallbackAttr(src) {
       return `onerror="this.onerror=null;this.src='${String(src).replace(/'/g, "%27")}'"`;
@@ -1810,6 +1816,20 @@
 
       // 2) Освежи од GitHub; JSON фајловите се читаат директно од страната (побрзо)
       try {
+        // 1) Брзо: еден фајл генериран при објавување (Cloudflare build)
+        try {
+          const m = await fetch('/_data/projects.json', { cache: 'no-cache' });
+          if (m.ok) {
+            const list = await m.json();
+            if (Array.isArray(list) && list.length) {
+              const fresh = JSON.stringify(list);
+              if (fresh !== cachedJson) render(list);
+              try { localStorage.setItem(CACHE_KEY, fresh); } catch (_) {}
+              return;
+            }
+          }
+        } catch (_) {}
+        // 2) Резерва: GitHub API
         const res = await fetch('https://api.github.com/repos/gjorgievskisandra-lang/portfolio/contents/_data/projects?ref=main');
         if (!res.ok) return;
         const files = await res.json();
@@ -1857,6 +1877,18 @@
       let cached = null;
       try { cached = localStorage.getItem(KEY); if (cached) render(JSON.parse(cached)); } catch (_) {}
       try {
+        try {
+          const m = await fetch('/_data/certificates.json', { cache: 'no-cache' });
+          if (m.ok) {
+            const list = await m.json();
+            if (Array.isArray(list) && list.length) {
+              const fresh = JSON.stringify(list);
+              if (fresh !== cached) render(list);
+              try { localStorage.setItem(KEY, fresh); } catch (_) {}
+              return;
+            }
+          }
+        } catch (_) {}
         const res = await fetch('https://api.github.com/repos/gjorgievskisandra-lang/portfolio/contents/_data/certificates?ref=main');
         if (!res.ok) return;
         const files = (await res.json()).filter(f => f.name.endsWith('.json'));
