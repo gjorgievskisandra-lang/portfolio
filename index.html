@@ -6,6 +6,7 @@
   <title>Sandra Gjorgievski — Architect | Architecture, Interiors & 3D Visualization</title>
   <meta name="description" content="Graduate engineer architect based in Skopje with 7+ years in residential architecture and interior design. Concept design, technical documentation and photorealistic 3D visualization — Revit, ArchiCAD, D5 Render.">
   <meta name="author" content="Sandra Gjorgievski">
+  <meta name="google-site-verification" content="mVfZxoiU-6qpipdKKgf3YLwSwaihzEW7ywmCn38vkyA" />
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://sandragjorgievski.pages.dev/">
   <meta name="theme-color" content="#F7F3EB">
@@ -508,6 +509,52 @@
       color: var(--sage);
       margin-top: -1.75rem;
       margin-bottom: 2rem;
+    }
+
+    /* ── BUILD (scroll drawing) ─────────────────────── */
+    #build { position: relative; height: 420vh; padding: 0; background: var(--cream); }
+    .build-sticky {
+      position: sticky; top: 0; height: 100vh; overflow: hidden;
+      display: grid; grid-template-columns: minmax(280px, 0.8fr) 1.2fr; align-items: center; gap: 4rem;
+      padding: 6rem 5rem 3rem;
+      background-image:
+        linear-gradient(rgba(125,152,112,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(125,152,112,.07) 1px, transparent 1px);
+      background-size: 72px 72px;
+    }
+    .build-counter { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--text-light); letter-spacing: .12em; margin-bottom: 1.6rem; }
+    .build-counter b { font-weight: 400; color: var(--sage-dark); font-size: 2.6rem; letter-spacing: 0; margin-right: .3rem; }
+    .build-level { font-size: .68rem; letter-spacing: .32em; text-transform: uppercase; color: var(--sage); margin-bottom: .9rem; }
+    .build-title { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(2.2rem, 4vw, 3.6rem); line-height: 1.05; color: var(--text-dark); margin-bottom: 1.2rem; }
+    .build-title em { color: var(--sage-dark); }
+    .build-desc { font-size: .9rem; font-weight: 300; line-height: 1.85; color: var(--text-mid); max-width: 380px; min-height: 5.5em; }
+    .build-text > * { transition: opacity .45s ease, transform .45s ease; }
+    .build-text.swap > *:not(.build-counter) { opacity: 0; transform: translateY(8px); }
+    .build-progress { margin-top: 2.4rem; display: flex; gap: .5rem; }
+    .build-progress span { flex: 1; max-width: 70px; height: 2px; background: var(--cream-dark); position: relative; overflow: hidden; }
+    .build-progress span i { position: absolute; inset: 0; background: var(--sage-dark); transform-origin: left; transform: scaleX(0); }
+    .build-hint { margin-top: 1.6rem; font-size: .66rem; letter-spacing: .28em; text-transform: uppercase; color: var(--text-light); }
+    .build-stage { position: relative; width: 100%; aspect-ratio: 1376 / 768; max-height: 72vh; margin: 0 auto; background: #F7F3EB; overflow: hidden; }
+    .build-stage::after { content: ''; position: absolute; inset: 12px; border: 1px solid rgba(78,107,66,.25); pointer-events: none; }
+    .build-stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; will-change: opacity, clip-path, transform; }
+    .b-clay { opacity: 0; }
+    .b-render { clip-path: circle(0% at 42% 50%); }
+    .b-line { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); }
+    .build-tag { position: absolute; left: 24px; bottom: 20px; z-index: 2; font-size: .62rem; letter-spacing: .3em; text-transform: uppercase; color: var(--text-dark); background: rgba(247,243,235,.85); padding: .45rem .7rem; }
+    .build-mark { position: absolute; right: 24px; top: 22px; z-index: 2; width: 34px; opacity: .8; }
+    @media (max-width: 900px) {
+      #build { height: 380vh; }
+      .build-sticky { grid-template-columns: 1fr; gap: 1.5rem; padding: 5.5rem 1.5rem 1.5rem; align-content: center; }
+      .build-desc { min-height: 0; font-size: .85rem; }
+      .build-counter b { font-size: 2rem; }
+      .build-stage { max-height: 40vh; }
+      .build-hint { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #build { height: auto; }
+      .build-sticky { position: relative; height: auto; }
+      .b-line { clip-path: none !important; opacity: .25 !important; }
+      .b-render { clip-path: none !important; }
     }
 
     /* ── ABOUT ──────────────────────────────────────── */
@@ -1265,6 +1312,29 @@
     </div>
   </section>
 
+  <!-- ── BUILD (scroll drawing) ─────────────────────────── -->
+  <section id="build" aria-label="From sketch to home">
+    <div class="build-sticky">
+      <div class="build-text" id="build-text">
+        <p class="build-counter"><b id="build-num">01</b>/ 04</p>
+        <p class="build-level" id="build-level">±0.00</p>
+        <h2 class="build-title" id="build-title"></h2>
+        <p class="build-desc" id="build-desc"></p>
+        <div class="build-progress"><span><i></i></span><span><i></i></span><span><i></i></span><span><i></i></span></div>
+        <p class="build-hint" data-en="Scroll to build ↓" data-mk="Скролај за да изградиш ↓">Scroll to build ↓</p>
+      </div>
+      <div class="build-visual">
+        <div class="build-stage" id="build-stage">
+          <img class="b-clay" src="/anim/clay.jpg" alt="" loading="lazy" decoding="async">
+          <img class="b-render" src="/anim/render.jpg" alt="Mediterranean house — 3D visualization by Sandra Gjorgievski" loading="lazy" decoding="async">
+          <img class="b-line" src="/anim/line.png" alt="" loading="lazy" decoding="async">
+          <svg class="build-mark" viewBox="18 20 184 146" aria-hidden="true"><g fill="none" stroke="#2A3524" stroke-width="5"><path d="M40 150 V30 H180 V150"/><path d="M78 150 V82 A32 32 0 0 1 142 82 V150"/><path d="M24 150 H196"/></g><circle cx="110" cy="100" r="8" fill="#2A3524"/></svg>
+          <span class="build-tag" id="build-tag"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ── ABOUT ───────────────────────────────────────────── -->
   <section id="about">
     <div class="container">
@@ -1901,6 +1971,78 @@
         if (fresh !== cached) render(list);
         try { localStorage.setItem(KEY, fresh); } catch (_) {}
       } catch (_) {}
+    })();
+
+    /* ── BUILD: from sketch to render while scrolling ───────── */
+    (function buildScroll() {
+      const sec = document.getElementById('build');
+      if (!sec) return;
+      const STEPS = [
+        { tag: ['Concept sketch', 'Идејна скица'], en: ['Sketch', 'Every home starts as a <em>line</em>.'], mk: ['Скица', 'Секој дом почнува како <em>линија</em>.'],
+          den: 'The site, the slope and the first lines. Ideas are tested on paper before anything else.',
+          dmk: 'Локацијата, теренот и првите линии. Идејата прво се проверува на хартија.' },
+        { tag: ['3D model', '3D модел'], en: ['Volume', 'Space takes <em>shape</em>.'], mk: ['Волумен', 'Просторот добива <em>форма</em>.'],
+          den: 'The sketch becomes a BIM model — proportions, levels and terraces resolved in three dimensions.',
+          dmk: 'Скицата станува BIM модел — пропорции, нивоа и тераси решени во три димензии.' },
+        { tag: ['Materials & light', 'Материјали и светло'], en: ['Materials', 'Stone, light and <em>greenery</em>.'], mk: ['Материјали', 'Камен, светло и <em>зеленило</em>.'],
+          den: 'Natural materials and Mediterranean light, chosen to belong to the landscape.',
+          dmk: 'Природни материјали и медитеранско светло, избрани да припаѓаат на пејзажот.' },
+        { tag: ['Final visualization', 'Финален приказ'], en: ['Home', 'From line to <em>home</em>.'], mk: ['Дом', 'Од линија до <em>дом</em>.'],
+          den: 'A photorealistic view of the finished house — before construction begins.',
+          dmk: 'Фотореалистичен приказ на готовата куќа — пред да почне градбата.' }
+      ];
+      const stage = document.getElementById('build-stage');
+      const line = stage.querySelector('.b-line'), clay = stage.querySelector('.b-clay'), rend = stage.querySelector('.b-render');
+      const bars = sec.querySelectorAll('.build-progress i');
+      const elNum = document.getElementById('build-num'), elLvl = document.getElementById('build-level'),
+            elTitle = document.getElementById('build-title'), elDesc = document.getElementById('build-desc'),
+            elText = document.getElementById('build-text'), elTag = document.getElementById('build-tag');
+      let shown = -1, shownLang = null;
+      const clamp = v => Math.min(1, Math.max(0, v));
+      const ease = t => t < .5 ? 2*t*t : 1 - Math.pow(-2*t + 2, 2) / 2;
+
+      function setText(i) {
+        const st = STEPS[i], L = lang === 'en';
+        elNum.textContent = String(i + 1).padStart(2, '0');
+        elLvl.textContent = L ? st.en[0] : st.mk[0];
+        elTitle.innerHTML = L ? st.en[1] : st.mk[1];
+        elDesc.textContent = L ? st.den : st.dmk;
+        elTag.textContent = L ? st.tag[0] : st.tag[1];
+      }
+      function showStep(i) {
+        if (i === shown && lang === shownLang) return;
+        const first = shown === -1 || lang !== shownLang;
+        shown = i; shownLang = lang;
+        if (first) { setText(i); return; }
+        elText.classList.add('swap');
+        setTimeout(() => { setText(i); elText.classList.remove('swap'); }, 220);
+      }
+      function update() {
+        const r = sec.getBoundingClientRect();
+        const total = sec.offsetHeight - window.innerHeight;
+        const p = clamp(-r.top / (total || 1));
+        const f = p * 4;
+        const s0 = ease(clamp(f * 1.15)), s1 = ease(clamp((f - 1) * 1.2)), s2 = ease(clamp((f - 2) * 1.15)), s3 = ease(clamp((f - 3) * 1.25));
+        // 01 sketch: diagonal wipe
+        const x = s0 * 135;
+        line.style.clipPath = `polygon(0 0, ${x}% 0, ${x - 35}% 100%, 0 100%)`;
+        // 02 clay model fades in under the lines
+        clay.style.opacity = s1.toFixed(3);
+        // 03 render opens from the house
+        rend.style.clipPath = `circle(${(s2 * 85).toFixed(2)}% at 42% 50%)`;
+        // 04 lines retreat, gentle settle
+        line.style.opacity = (1 - s3 * 0.9).toFixed(3);
+        rend.style.transform = `scale(${(1.04 - s3 * 0.04).toFixed(4)})`;
+        [s0, s1, s2, s3].forEach((v, k) => bars[k].style.transform = `scaleX(${v})`);
+        showStep(Math.min(3, Math.floor(f)));
+      }
+      let ticking = false;
+      window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { update(); ticking = false; }); } }, { passive: true });
+      window.addEventListener('resize', update);
+      document.querySelectorAll('[data-lang]').forEach(b => b.addEventListener('click', () => setTimeout(update, 0)));
+      // preload layers when the section approaches
+      new IntersectionObserver((es, o) => { if (es[0].isIntersecting) { stage.querySelectorAll('img').forEach(im => im.loading = 'eager'); o.disconnect(); } }, { rootMargin: '600px' }).observe(sec);
+      update();
     })();
   </script>
 </body>
