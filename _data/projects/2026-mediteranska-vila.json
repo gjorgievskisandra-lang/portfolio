@@ -1,0 +1,13 @@
+{
+  "title_mk": "Медитеранска вила со базен",
+  "title_en": "Mediterranean Villa with Pool",
+  "category_mk": "Резиденцијален",
+  "category_en": "Residential",
+  "year": 2026,
+  "description_mk": "3D визуализација на семејна вила на терасест терен, вклопена во медитеранскиот пејзаж. Ѕидовите од локален камен ги следат нивоата на теренот, а базенот, терасите и маслиновите дрвја создаваат простор за живот надвор. Прикажана во дневно и ноќно светло.",
+  "description_en": "3D visualization of a family villa on a terraced slope, set into the Mediterranean landscape. Local stone walls follow the levels of the terrain, while the pool, terraces and olive trees create space for outdoor living. Shown in daylight and at night.",
+  "images": [
+    "/uploads/images/mediteranska-vila_den.jpg",
+    "/uploads/images/mediteranska-vila_nok.jpg"
+  ]
+}
