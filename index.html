@@ -540,6 +540,12 @@
     .b-day, .b-night { opacity: 0; }
     .b-day { -webkit-mask-image: radial-gradient(circle at 41% 50%, #000 0%, transparent 0%); mask-image: radial-gradient(circle at 41% 50%, #000 0%, transparent 0%); opacity: 1; }
     .build-draw { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .build-zoom { position: absolute; inset: 0; transform-origin: 40% 54%; will-change: transform; }
+    .build-note { position: absolute; z-index: 2; display: flex; align-items: center; gap: .45rem; opacity: 0; transform: translate(-4px, -50%); pointer-events: none; }
+    .build-note b { width: 7px; height: 7px; border-radius: 50%; background: #F7F3EB; box-shadow: 0 0 0 1.5px #2A3524; flex-shrink: 0; }
+    .build-note i { width: 26px; height: 1px; background: #F7F3EB; box-shadow: 0 0 2px rgba(0,0,0,.35); }
+    .build-note span { font-size: .5rem; letter-spacing: .22em; text-transform: uppercase; color: #2A3524; background: rgba(247,243,235,.92); padding: .3rem .5rem; white-space: nowrap; }
+    .build-note.left { flex-direction: row-reverse; transform: translate(calc(-100% + 4px), -50%); }
     .build-draw path { stroke-dasharray: 1; stroke-dashoffset: 1; }
     .build-tag { position: absolute; left: 24px; bottom: 20px; z-index: 2; font-size: .62rem; letter-spacing: .3em; text-transform: uppercase; color: var(--text-dark); background: rgba(247,243,235,.85); padding: .45rem .7rem; }
     .build-mark { position: absolute; right: 24px; top: 22px; z-index: 2; width: 34px; opacity: .8; }
@@ -1326,9 +1332,16 @@
       </div>
       <div class="build-visual">
         <div class="build-stage" id="build-stage">
+          <div class="build-zoom" id="build-zoom">
           <img class="b-day" src="anim/vila-den.jpg" alt="Mediterranean villa — daytime 3D visualization by Sandra Gjorgievski" decoding="async">
           <img class="b-night" src="anim/vila-nok.jpg" alt="Mediterranean villa — night 3D visualization by Sandra Gjorgievski" decoding="async">
           <div id="build-draw-holder"></div>
+          <div class="build-note" style="left:20%;top:40%"><b></b><i></i><span data-en="Pool with a view" data-mk="Базен со поглед">Pool with a view</span></div>
+          <div class="build-note" style="left:36%;top:50%"><b></b><i></i><span data-en="Covered terrace" data-mk="Покриена тераса">Covered terrace</span></div>
+          <div class="build-note left" style="left:33%;top:77%"><b></b><i></i><span data-en="Local stone walls" data-mk="Ѕидови од локален камен">Local stone walls</span></div>
+          <div class="build-note" style="left:49%;top:25%"><b></b><i></i><span data-en="Olive trees" data-mk="Маслинови дрвја">Olive trees</span></div>
+          <div class="build-note" style="left:58%;top:40%"><b></b><i></i><span data-en="Pergola" data-mk="Пергола">Pergola</span></div>
+          </div>
           <svg class="build-mark" viewBox="18 20 184 146" aria-hidden="true"><g fill="none" stroke="#2A3524" stroke-width="5"><path d="M40 150 V30 H180 V150"/><path d="M78 150 V82 A32 32 0 0 1 142 82 V150"/><path d="M24 150 H196"/></g><circle cx="110" cy="100" r="8" fill="#2A3524"/></svg>
           <span class="build-tag" id="build-tag"></span>
         </div>
@@ -1985,15 +1998,16 @@
         { tag: ['Materials & light', 'Материјали и светло'], en: ['Materials', 'Stone, light and <em>greenery</em>.'], mk: ['Материјали', 'Камен, светло и <em>зеленило</em>.'],
           den: 'Local stone, olive trees and terraces that follow the terrain — chosen to belong to the landscape.',
           dmk: 'Локален камен, маслинки и тераси што го следат теренот — избрани да припаѓаат на пејзажот.' },
-        { tag: ['Day', 'Ден'], en: ['Day', 'Life in the <em>sun</em>.'], mk: ['Ден', 'Живот на <em>сонце</em>.'],
-          den: 'A photorealistic view of the finished house, before construction begins.',
-          dmk: 'Фотореалистичен приказ на готовата куќа, пред да почне градбата.' },
+        { tag: ['Details', 'Детали'], en: ['Details', 'Every detail has a <em>reason</em>.'], mk: ['Детали', 'Секој детал има <em>причина</em>.'],
+          den: 'Terraces that follow the slope, a pool facing the view, shade from the pergola — each decision serves everyday life.',
+          dmk: 'Тераси што го следат теренот, базен свртен кон погледот, сенка од перголата — секоја одлука е за секојдневниот живот.' },
         { tag: ['Night', 'Ноќ'], en: ['Night', 'From line to <em>home</em>.'], mk: ['Ноќ', 'Од линија до <em>дом</em>.'],
           den: 'The same house at dusk — light, warmth and the moment a project becomes a home.',
           dmk: 'Истата куќа во сумрак — светло, топлина и моментот кога проектот станува дом.' }
       ];
       const stage = document.getElementById('build-stage');
       const day = stage.querySelector('.b-day'), night = stage.querySelector('.b-night');
+      const zoom = document.getElementById('build-zoom'), notes = stage.querySelectorAll('.build-note');
       const bars = sec.querySelectorAll('.build-progress i');
       const elNum = document.getElementById('build-num'), elLvl = document.getElementById('build-level'),
             elTitle = document.getElementById('build-title'), elDesc = document.getElementById('build-desc'),
@@ -2048,8 +2062,16 @@
         day.style.webkitMaskImage = m; day.style.maskImage = m;
         // 03 — lines step back
         if (drawSvg) drawSvg.style.opacity = (1 - 0.88 * ease(clamp((f - 1.9) / 0.9))).toFixed(3);
-        // 04 — day turns into night
-        night.style.opacity = ease(clamp((f - 2.95) / 0.85)).toFixed(3);
+        // 03 — zoom into the house, notes appear
+        const zin = ease(clamp((f - 2.05) / 0.7)), zout = ease(clamp((f - 3.0) / 0.6));
+        zoom.style.transform = `scale(${(1 + 0.08 * s1 + 0.34 * zin - 0.42 * zout).toFixed(4)}) translateX(${(-1.5 * s1 + 1.5 * zout).toFixed(2)}%)`;
+        const nOp = clamp((f - 2.35) / 0.35) * (1 - clamp((f - 2.92) / 0.18));
+        notes.forEach((el, k) => {
+          const o = clamp(nOp * 1.6 - k * 0.15);
+          el.style.opacity = o.toFixed(3);
+        });
+        // 04 — zoom back out, day turns into night
+        night.style.opacity = ease(clamp((f - 3.05) / 0.8)).toFixed(3);
         const seg = [clamp(f / 1.3), clamp(f - 1), clamp(f - 2), clamp(f - 3)];
         seg.forEach((v, k) => bars[k].style.transform = `scaleX(${v})`);
         showStep(Math.min(3, Math.floor(f)));
